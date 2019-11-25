@@ -41,12 +41,15 @@ body {
 
 .card .back {
   background-color: #456783;
+  
+
 }
 
 .card .front {
   position:absolute;
   left:0;top:0;
-  transform:rotateY(-180deg) translateZ(1px); backface-visibility:hidden;
+  transform:rotateY(-180deg) translateZ(1px); 
+  backface-visibility:hidden;
 }
 
 #score {
