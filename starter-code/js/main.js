@@ -1,4 +1,3 @@
-//creating all cards
 const cards = [
   { name: 'aquaman',         img: 'aquaman.jpg' },
   { name: 'batman',          img: 'batman.jpg' },
@@ -27,12 +26,12 @@ const cards = [
 ];
 
 const memoryGame = new MemoryGame(cards);
-
+memoryGame.shuffleCards();
 
 document.addEventListener("DOMContentLoaded", function(event) { 
   let html = '';
   memoryGame.cards.forEach(pic => {
-    html += `<div class="card" id="${pic.name}" data-card-name="${pic.name}">`;
+    html += `<div class="card" data-card-name="${pic.name}">`;
     html += `<div class="back" name="${pic.img}"></div>`;
     html += `<div class="front" style="background: url(img/${pic.img}) no-repeat"></div>`;
     html += `</div>`;
@@ -42,38 +41,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
   document.querySelector('#memory_board').innerHTML = html;
 
   // Bind the click event of each element to a function
+  document.querySelectorAll('.card').forEach( card => {
+    card.onclick = function() {
+      // TODO: write some code here
+      //Flip a card   
+      card.classList.add("turned");
 
-  if(memoryGame.pickedCards.length < 2) {
+      let arrayCards= memoryGame.pickedCards.length;
 
-    document.querySelectorAll('.card').forEach( card => {
-      card.onclick = function() {
-        // TODO: write some code here
-  
-        card.classList.add("turned")
-  
-        let cardName = card.getAttributeNode("id").value
-  
-        memoryGame.pickedCards.push(cardName)
-  
-        
-  
-  
-  
-  
-       
-        console.log(memoryGame.pickedCards)
-      };
+      memoryGame.pickedCards.push(card);
+
+      if(arrayCards === 1){
+       let isEqual= memoryGame.checkIfPair(memoryGame.pickedCards[0], memoryGame.pickedCards[1]);
       
+        if(isEqual){
+          memoryGame.addPaisGuessed();
+        }else{
+
+          
+          memoryGame.turnCard(isEqual,memoryGame.pickedCards[0],memoryGame.pickedCards[1]);
+        }
+        
+        memoryGame.pickedCards=[];
   
-    });
-  }//end if
-  else {
-
-    
-
-
-
-  }//end else
+      }
+      memoryGame.addPaisClicked();
+      memoryGame.isFinished();
+    };
+  });
 });
-
-
